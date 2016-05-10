@@ -1,8 +1,10 @@
+api = require "./trelloAPI"
+
 class Trelloist
 
-	GLOBAL_BOARD
-
 	init: (data, startApp) ->
+
+		@GLOBAL_BOARD = null;
 
 		data = appName: data, boardId: null if typeof data isnt "object"
 
@@ -35,5 +37,25 @@ class Trelloist
 					@loadBoard data.boardId, startApp
 		
 			error: (e)=> console.error "We have some problems to login"
+
+	loadBoard: (boardId, onSuccess) ->
+
+		API = new api "/boards/#{boardId}",
+
+			lists: "open"
+
+			members: "all"
+
+			member_fields: "all"
+
+			list_fields: "all"
+
+			fields: "name"
+
+			labels: "all"
+
+			label_fields: "all"
+
+		API.run "GET", onSuccess
 
 window.Trelloist = new Trelloist()
