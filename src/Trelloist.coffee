@@ -1,4 +1,10 @@
+# 
+# Trelloist.
+# @author Alireza Sheikholmolouki / @alireza29675
+# 
+
 api = require "./trelloAPI"
+Board = require "./Objects/Board"
 
 class Trelloist
 
@@ -56,6 +62,16 @@ class Trelloist
 
 			label_fields: "all"
 
-		API.run "GET", onSuccess
+			cards: "all"
+
+			card_fields: "all"
+
+		API.run "GET", (boardData) =>
+
+			@GLOBAL_BOARD = new Board boardData, (board)=>
+
+				onSuccess board
+
+		@
 
 window.Trelloist = new Trelloist()
