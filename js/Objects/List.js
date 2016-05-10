@@ -5,8 +5,8 @@
   Card = require("./Card");
 
   module.exports = List = (function() {
-    function List(listData, boardData) {
-      this.boardData = boardData;
+    function List(listData, board) {
+      this.board = board;
       this.id = listData.id;
       this.name = listData.name;
       this.cards = [];
@@ -17,15 +17,30 @@
 
     List.prototype.makeReadyCards = function() {
       var cardData, _i, _len, _ref, _results;
-      _ref = this.boardData.cards;
+      _ref = this.board.trelloObj.cards;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         cardData = _ref[_i];
         if (cardData.idList === this.id) {
-          _results.push(this.cards.push(new Card(cardData)));
+          _results.push(this.cards.push(new Card(cardData, this.board)));
         }
       }
       return _results;
+    };
+
+    List.prototype.getCard = function(id) {
+      var card, _i, _len, _ref;
+      if (typeof id === "string") {
+        _ref = this.cards;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          card = _ref[_i];
+          if (card.id === id) {
+            return card;
+          }
+        }
+        return void 0;
+      }
+      return this.cards[id];
     };
 
     return List;

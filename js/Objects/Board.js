@@ -22,7 +22,7 @@
         memberData = _ref[_i];
         this.members.push(new Member(memberData));
       }
-      _ref1 = boardData.label;
+      _ref1 = boardData.labels;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         labelData = _ref1[_j];
         this.labels.push(new Label(labelData));
@@ -40,7 +40,7 @@
       _ref = this.trelloObj.lists;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         listData = _ref[_i];
-        this.lists.push(new List(listData, this.trelloObj));
+        this.lists.push(new List(listData, this));
       }
       return onReady();
     };
@@ -58,6 +58,72 @@
         return void 0;
       }
       return this.lists[id];
+    };
+
+    Board.prototype.getMember = function(id) {
+      var member, _i, _len, _ref;
+      if (typeof id === "string") {
+        _ref = this.members;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          member = _ref[_i];
+          if (member.id === id) {
+            return member;
+          }
+        }
+        return void 0;
+      }
+      return this.members[id];
+    };
+
+    Board.prototype.getMemberByUsername = function(username) {
+      var member, _i, _len, _ref;
+      _ref = this.members;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        member = _ref[_i];
+        if (member.username === username) {
+          return member;
+        }
+      }
+      return void 0;
+    };
+
+    Board.prototype.getLabel = function(id) {
+      var label, _i, _len, _ref;
+      if (typeof id === "string") {
+        _ref = this.labels;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          label = _ref[_i];
+          if (label.id === id) {
+            return label;
+          }
+        }
+        return void 0;
+      }
+      return this.labels[id];
+    };
+
+    Board.prototype.getLabelByColor = function(color) {
+      var label, _i, _len, _ref;
+      _ref = this.labels;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        label = _ref[_i];
+        if (label.color === color) {
+          return label;
+        }
+      }
+      return void 0;
+    };
+
+    Board.prototype.getLabelByName = function(name) {
+      var label, _i, _len, _ref;
+      _ref = this.labels;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        label = _ref[_i];
+        if (label.name === name) {
+          return label;
+        }
+      }
+      return void 0;
     };
 
     return Board;

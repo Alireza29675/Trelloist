@@ -2,7 +2,7 @@ Card = require "./Card"
 
 module.exports = class List
 
-	constructor: (listData, @boardData)->
+	constructor: (listData, @board)->
 
 		@id = listData.id
 		
@@ -18,4 +18,14 @@ module.exports = class List
 
 	makeReadyCards: ->
 
-		@cards.push new Card cardData for cardData in @boardData.cards when cardData.idList is @id
+		@cards.push new Card cardData, @board for cardData in @board.trelloObj.cards when cardData.idList is @id
+
+	getCard: (id)->
+
+		if typeof id is "string"
+
+			return card for card in @cards when card.id is id
+
+			return undefined
+
+		return this.cards[id]

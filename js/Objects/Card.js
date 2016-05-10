@@ -3,14 +3,92 @@
   var Card;
 
   module.exports = Card = (function() {
-    function Card(cardData) {
+    function Card(cardData, board) {
+      var labelId, memberId, _i, _j, _len, _len1, _ref, _ref1;
+      this.board = board;
       this.id = cardData.id;
       this.name = this.text = cardData.name;
       this.desc = cardData.desc;
       this.members = [];
       this.labels = [];
       this.trelloObj = cardData;
+      _ref = cardData.idMembers;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        memberId = _ref[_i];
+        this.members.push(this.board.getMember(memberId));
+      }
+      _ref1 = cardData.idLabels;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        labelId = _ref1[_j];
+        this.labels.push(this.board.getLabel(labelId));
+      }
     }
+
+    Card.prototype.getMember = function(id) {
+      var member, _i, _len, _ref;
+      if (typeof id === "string") {
+        _ref = this.members;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          member = _ref[_i];
+          if (member.id === id) {
+            return member;
+          }
+        }
+        return void 0;
+      }
+      return this.members[id];
+    };
+
+    Card.prototype.getMemberByUsername = function(username) {
+      var member, _i, _len, _ref;
+      _ref = this.members;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        member = _ref[_i];
+        if (member.username === username) {
+          return member;
+        }
+      }
+      return void 0;
+    };
+
+    Card.prototype.getLabel = function(id) {
+      var label, _i, _len, _ref;
+      if (typeof id === "string") {
+        _ref = this.labels;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          label = _ref[_i];
+          if (label.id === id) {
+            return label;
+          }
+        }
+        return void 0;
+      }
+      return this.labels[id];
+    };
+
+    Card.prototype.getLabelByColor = function(color) {
+      var label, _i, _len, _ref;
+      _ref = this.labels;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        label = _ref[_i];
+        if (label.color === color) {
+          return label;
+        }
+      }
+      return void 0;
+    };
+
+    Card.prototype.getLabelByName = function(name) {
+      var label, _i, _len, _ref;
+      _ref = this.labels;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        label = _ref[_i];
+        if (label.name === name) {
+          return label;
+        }
+      }
+      return void 0;
+    };
 
     return Card;
 
