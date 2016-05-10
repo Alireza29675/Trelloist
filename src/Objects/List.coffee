@@ -29,3 +29,9 @@ module.exports = class List
 			return undefined
 
 		return this.cards[id]
+
+	eachCard: (eachFunc)->
+
+		eachFunc card for card in @cards
+
+		@

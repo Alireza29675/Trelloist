@@ -1,3 +1,4 @@
+api = require "../Utilites/trelloAPI"
 List = require "./List"
 Member = require "./Member"
 Label = require "./Label"
@@ -44,6 +45,20 @@ module.exports = class Board
 
 		return this.lists[id]
 
+	eachList: (eachFunc)->
+
+		eachFunc list for list in @lists
+
+		@
+
+	getCard: (id)->
+
+		if typeof id is "string"
+
+			return card for card in @cards when card.id is id
+
+			return undefined
+
 	getMember: (id)->
 
 		if typeof id is "string"
@@ -59,6 +74,12 @@ module.exports = class Board
 		return member for member in @members when member.username is username
 
 		return undefined
+
+	eachMember: (eachFunc)->
+
+		eachFunc member for member in @members
+
+		@
 
 	getLabel: (id)->
 
@@ -81,3 +102,39 @@ module.exports = class Board
 		return label for label in @labels when label.name is name
 
 		return undefined
+
+	eachLabel: (eachFunc)->
+
+		eachFunc label for label in @labels
+
+		@
+
+	refresh: (onSuccess = ->)->
+
+		API = new api "/boards/#{@id}",
+
+			lists: "open"
+
+			members: "all"
+
+			member_fields: "all"
+
+			list_fields: "all"
+
+			fields: "name"
+
+			labels: "all"
+
+			label_fields: "all"
+
+			cards: "open"
+
+			card_fields: "all"
+
+		API.run "GET", (boardData) =>
+
+			@constructor boardData, (board)=>
+
+				onSuccess board
+
+		@

@@ -5,6 +5,14 @@ Trelloist.init({
 
 }, function( board ){
 
-	console.log( board );
+	console.log(board);
+
+	var Card = board.getList(0).getCard(0);
+
+	var Alireza = board.getMember(0);
+
+	Card.removeMember( Alireza );
+
+	Card.moveTo( board.getList(1) );
 
 })

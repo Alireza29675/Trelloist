@@ -43,6 +43,16 @@
       return this.cards[id];
     };
 
+    List.prototype.eachCard = function(eachFunc) {
+      var card, _i, _len, _ref;
+      _ref = this.cards;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        card = _ref[_i];
+        eachFunc(card);
+      }
+      return this;
+    };
+
     return List;
 
   })();
