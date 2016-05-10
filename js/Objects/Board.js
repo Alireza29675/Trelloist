@@ -73,17 +73,21 @@
     };
 
     Board.prototype.getCard = function(id) {
-      var card, _i, _len, _ref;
-      if (typeof id === "string") {
-        _ref = this.cards;
+      var ret;
+      ret = void 0;
+      this.eachList(function(list) {
+        var card, _i, _len, _ref, _results;
+        _ref = list.cards;
+        _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           card = _ref[_i];
           if (card.id === id) {
-            return card;
+            _results.push(ret = card);
           }
         }
-        return void 0;
-      }
+        return _results;
+      });
+      return ret;
     };
 
     Board.prototype.getMember = function(id) {
@@ -170,6 +174,30 @@
         eachFunc(label);
       }
       return this;
+    };
+
+    Board.prototype.addList = function(name, params, onSuccess) {
+      var API;
+      if (params == null) {
+        params = {};
+      }
+      if (onSuccess == null) {
+        onSuccess = function() {};
+      }
+      if (typeof params === "function") {
+        onSuccess = params;
+        params = {};
+      }
+      params.name = name;
+      params.idBoard = this.id;
+      API = new api("/lists", params);
+      return API.run("POST", (function(_this) {
+        return function(listData) {
+          return _this.board.refresh(function() {
+            return onSuccess(_this.getList(listData.id));
+          });
+        };
+      })(this));
     };
 
     Board.prototype.refresh = function(onSuccess) {

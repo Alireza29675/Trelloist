@@ -53,11 +53,13 @@ module.exports = class Board
 
 	getCard: (id)->
 
-		if typeof id is "string"
+		ret = undefined
 
-			return card for card in @cards when card.id is id
+		@eachList (list)->
 
-			return undefined
+			ret = card for card in list.cards when card.id is id
+
+		return ret
 
 	getMember: (id)->
 
@@ -108,6 +110,22 @@ module.exports = class Board
 		eachFunc label for label in @labels
 
 		@
+
+	addList: (name, params = {}, onSuccess = ->)->
+
+		if typeof params is "function"
+
+			onSuccess = params
+
+			params = {}
+
+		params.name = name
+
+		params.idBoard = @id
+
+		API = new api "/lists", params
+
+		API.run "POST", (listData)=> @board.refresh => onSuccess @getList listData.id
 
 	refresh: (onSuccess = ->)->
 

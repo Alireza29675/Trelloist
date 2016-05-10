@@ -90,7 +90,7 @@ module.exports = class Card
 
 		API = new api "/cards/#{@id}",
 
-			desc, desc
+			desc: desc
 
 		API.run "PUT", => @board.refresh => do onSuccess
 
@@ -111,6 +111,16 @@ module.exports = class Card
 		API = new api "/cards/#{@id}"
 
 		API.run "DELETE", => @board.refresh => do onSuccess
+
+		@
+
+	archive: (onSuccess = ->) ->
+
+		API = new api "/cards/#{@id}/closed",
+
+			value: true
+
+		API.run "PUT", => @board.refresh => do onSuccess
 
 		@
 
@@ -162,9 +172,9 @@ module.exports = class Card
 		
 		@
 
-	removeLabel: (label, onSuccess = ->) ->
+	removeLabel: (label, onSuccess = ->) -> # Have Some Bugs
 
-		API = new api "/cards/#{@id}/idLabels",
+		API = new api "/cards/#{@id}/idLabels", # We have 404 error here in url
 
 			idLabel: label.id
 

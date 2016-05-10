@@ -143,7 +143,9 @@
       if (onSuccess == null) {
         onSuccess = function() {};
       }
-      API = new api("/cards/" + this.id, desc, desc);
+      API = new api("/cards/" + this.id, {
+        desc: desc
+      });
       API.run("PUT", (function(_this) {
         return function() {
           return _this.board.refresh(function() {
@@ -179,6 +181,24 @@
       }
       API = new api("/cards/" + this.id);
       API.run("DELETE", (function(_this) {
+        return function() {
+          return _this.board.refresh(function() {
+            return onSuccess();
+          });
+        };
+      })(this));
+      return this;
+    };
+
+    Card.prototype.archive = function(onSuccess) {
+      var API;
+      if (onSuccess == null) {
+        onSuccess = function() {};
+      }
+      API = new api("/cards/" + this.id + "/closed", {
+        value: true
+      });
+      API.run("PUT", (function(_this) {
         return function() {
           return _this.board.refresh(function() {
             return onSuccess();

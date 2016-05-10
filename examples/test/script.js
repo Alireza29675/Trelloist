@@ -5,14 +5,43 @@ Trelloist.init({
 
 }, function( board ){
 
-	console.log(board);
+	var Todo = board.getList(0);
 
-	var Card = board.getList(0).getCard(0);
+	var Doing = board.getList(1);
 
-	var Alireza = board.getMember(0);
+	var Done = board.getList(2);
 
-	Card.removeMember( Alireza );
+	var Alireza = board.getMemberByUsername("alireza29675");
 
-	Card.moveTo( board.getList(1) );
+	var GreenLabel = board.getLabelByColor("green");
+
+	Todo.addCard("رفتن به رخت خواب", function(card){
+
+		card.addMember(Alireza);
+
+		setTimeout(function(){
+			
+			card.moveTo(Doing);
+
+		}, 5000);
+
+		setTimeout(function(){
+
+			card.moveTo(Done);
+
+			card.addLabel(GreenLabel);
+
+			card.setName("That's Automation!");
+
+		}, 10000);
+
+		setTimeout(function(){
+
+			card.archive();
+
+		}, 20000);
+
+	})
+
 
 })
