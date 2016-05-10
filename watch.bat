@@ -1,1 +1,2 @@
-watchify src/Trelloist.coffee -o test/Trelloist.js
+start coffee --watch --compile --output js/ src/
+start watchify js/Trelloist.js -o test/Trelloist.js
