@@ -1,11 +1,8 @@
-Globe = require "./Globe"
 Card = require "./Card"
 
-module.exports = class List extends Globe
+module.exports = class List
 
 	constructor: (listData, @boardData)->
-
-		super
 
 		@id = listData.id
 		

@@ -1,11 +1,10 @@
-Globe = require "./Globe"
 List = require "./List"
+Member = require "./Member"
+Label = require "./Label"
 
-module.exports = class Board extends Globe
+module.exports = class Board
 
 	constructor: (boardData, onReady)->
-
-		super
 
 		@id = boardData.id
 
@@ -19,6 +18,10 @@ module.exports = class Board extends Globe
 
 		@trelloObj = boardData
 
+		@members.push new Member memberData for memberData in boardData.members
+
+		@labels.push new Label labelData for labelData in boardData.label
+
 		@makeReadyLists =>
 
 			onReady @
@@ -30,3 +33,13 @@ module.exports = class Board extends Globe
 		@lists.push new List listData, @trelloObj for listData in @trelloObj.lists
 
 		do onReady
+
+	getList: (id)->
+
+		if typeof id is "string"
+
+			return list for list in @lists when list.name is id
+
+			return undefined;
+
+		return this.lists[id]

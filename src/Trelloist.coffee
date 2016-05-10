@@ -3,14 +3,14 @@
 # @author Alireza Sheikholmolouki / @alireza29675
 # 
 
-api = require "./trelloAPI"
+api = require "./Utilites/trelloAPI"
 Board = require "./Objects/Board"
 
 class Trelloist
 
 	init: (data, startApp) ->
 
-		@GLOBAL_BOARD = null;
+		@GLOBAL_BOARD = null
 
 		data = appName: data, boardId: null if typeof data isnt "object"
 
@@ -62,7 +62,7 @@ class Trelloist
 
 			label_fields: "all"
 
-			cards: "all"
+			cards: "open"
 
 			card_fields: "all"
 

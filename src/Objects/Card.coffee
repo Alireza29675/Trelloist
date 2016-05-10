@@ -1,6 +1,4 @@
-Globe = require "./Globe"
-
-module.exports = class Card extends Globe
+module.exports = class Card
 
 	constructor: (cardData)->
 

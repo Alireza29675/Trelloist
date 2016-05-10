@@ -2,7 +2,7 @@
 (function() {
   var Board, Trelloist, api;
 
-  api = require("./trelloAPI");
+  api = require("./Utilites/trelloAPI");
 
   Board = require("./Objects/Board");
 
@@ -54,7 +54,7 @@
         fields: "name",
         labels: "all",
         label_fields: "all",
-        cards: "all",
+        cards: "open",
         card_fields: "all"
       });
       API.run("GET", (function(_this) {
