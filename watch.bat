@@ -1,0 +1,1 @@
+watchify src/Trelloist.coffee -o test/Trelloist.js
