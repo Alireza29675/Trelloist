@@ -12,7 +12,9 @@ class Trelloist
 
 		@GLOBAL_BOARD = null
 
-		data = appName: data, boardId: null if typeof data isnt "object"
+		data = appName: data, boardId: null, workerFile: null if typeof data isnt "object"
+
+		@workerFile = data.workerFile
 
 		Trello.authorize
 
@@ -68,7 +70,23 @@ class Trelloist
 
 		API.run "GET", (boardData) =>
 
-			@GLOBAL_BOARD = new Board boardData, (board)=>
+			if typeof Worker isnt "undefined"
+
+				worker = new Worker @workerFile
+
+				worker.postMessage
+
+					cmd: "start"
+
+					token: Trello.token()
+
+					key: Trello.key()
+
+					boardId: board.id
+
+			else console.error "Error: Web Workers isnt supported in this browser!"
+
+			@GLOBAL_BOARD = new Board boardData, worker, (board)=>
 
 				onSuccess board
 

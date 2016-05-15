@@ -14,9 +14,11 @@
       if (typeof data !== "object") {
         data = {
           appName: data,
-          boardId: null
+          boardId: null,
+          workerFile: null
         };
       }
+      this.workerFile = data.workerFile;
       return Trello.authorize({
         name: data.appName,
         scope: {
@@ -59,7 +61,19 @@
       });
       API.run("GET", (function(_this) {
         return function(boardData) {
-          return _this.GLOBAL_BOARD = new Board(boardData, function(board) {
+          var worker;
+          if (typeof Worker !== "undefined") {
+            worker = new Worker(_this.workerFile);
+            worker.postMessage({
+              cmd: "start",
+              token: Trello.token(),
+              key: Trello.key(),
+              boardId: board.id
+            });
+          } else {
+            console.error("Error: Web Workers isnt supported in this browser!");
+          }
+          return _this.GLOBAL_BOARD = new Board(boardData, worker, function(board) {
             return onSuccess(board);
           });
         };

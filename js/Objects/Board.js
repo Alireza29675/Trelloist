@@ -11,7 +11,7 @@
   Label = require("./Label");
 
   module.exports = Board = (function() {
-    function Board(boardData, onReady) {
+    function Board(boardData, worker, onReady) {
       var labelData, memberData, _i, _j, _len, _len1, _ref, _ref1;
       this.id = boardData.id;
       this.name = boardData.name;
@@ -19,6 +19,7 @@
       this.members = [];
       this.labels = [];
       this.trelloObj = boardData;
+      this.worker = worker;
       _ref = boardData.members;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         memberData = _ref[_i];
@@ -218,9 +219,28 @@
       });
       API.run("GET", (function(_this) {
         return function(boardData) {
-          return _this.constructor(boardData, function(board) {
+          return _this.constructor(boardData, _this.worker, function(board) {
             return onSuccess(board);
           });
+        };
+      })(this));
+      return this;
+    };
+
+    Board.prototype.getActions = function(onSuccess) {
+      var API;
+      if (onSuccess == null) {
+        onSuccess = function() {};
+      }
+      API = new api("/boards/" + this.id + "/actions", {
+        filter: "all",
+        fields: "all",
+        limit: 50,
+        since: "2016-05-15T19:20:54.713Z"
+      });
+      API.run("GET", (function(_this) {
+        return function(actionsData) {
+          return onSuccess(actionsData);
         };
       })(this));
       return this;

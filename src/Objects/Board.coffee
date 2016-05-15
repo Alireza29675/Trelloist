@@ -5,7 +5,7 @@ Label = require "./Label"
 
 module.exports = class Board
 
-	constructor: (boardData, onReady)->
+	constructor: (boardData, worker, onReady)->
 
 		@id = boardData.id
 
@@ -18,6 +18,8 @@ module.exports = class Board
 		@labels = []
 
 		@trelloObj = boardData
+
+		@worker = worker
 
 		@members.push new Member memberData for memberData in boardData.members
 
@@ -151,8 +153,25 @@ module.exports = class Board
 
 		API.run "GET", (boardData) =>
 
-			@constructor boardData, (board)=>
+			@constructor boardData, @worker, (board)=>
 
 				onSuccess board
+
+		@
+
+	# SHould Delete
+	getActions: (onSuccess = ->)->
+
+		API = new api "/boards/#{@id}/actions",
+
+			filter: "all"
+
+			fields: "all"
+
+			limit: 50
+
+			since: "2016-05-15T19:20:54.713Z"
+
+		API.run "GET", (actionsData) => onSuccess actionsData
 
 		@

@@ -24,7 +24,7 @@ module.exports = class trelloAPI
 
 			else
 
-				console.error "Something's goes wrong! Error #{request.status}"
+				console.error "Something's goes wrong! Error #{request.status}", request.responseText
 
 		request.onerror = =>
 

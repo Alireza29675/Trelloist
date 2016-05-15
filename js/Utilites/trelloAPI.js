@@ -23,7 +23,7 @@
           if (request.status >= 200 && request.status < 400) {
             return onSuccess(JSON.parse(request.responseText));
           } else {
-            return console.error("Something's goes wrong! Error " + request.status);
+            return console.error("Something's goes wrong! Error " + request.status, request.responseText);
           }
         };
       })(this);
