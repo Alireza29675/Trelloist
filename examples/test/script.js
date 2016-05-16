@@ -6,8 +6,6 @@ Trelloist.init({
 
 }, function( board ){
 
-	board.getActions(function(actions){
-		console.log(actions);
-	});
+	
 
 })

@@ -2,11 +2,7 @@ api = require "./Utilites/trelloAPI"
 
 self.Trello = {}
 
-self.lastDate
-
-self.lastDateSet = no
-
-getUpdateActions = ->
+getLatestActions = (onSuccess = ->)->
 
 	postParams =
 
@@ -14,21 +10,27 @@ getUpdateActions = ->
 
 		fields: "all"
 
-		limit: 50
+		limit: 10
 
-	postParams.since = self.lastDate if self.lastDateSet
+	postParams.since = self.lastDate if self.lastDate?
 
 	API = new api "/boards/#{self.boardId}/actions", postParams
 
 	API.run "GET", (actionsData) =>
 
-		if actionsData.length isnt 0
+		self.lastDate = actionsData[0].date if actionsData.length isnt 0
 
-			if self.lastDateSet then self.postMessage(actionsData) else self.lastDateSet = yes
+		onSuccess actionsData
 
-			self.lastDate = actionsData[0].date
+getUpdateActions = ->
 
-	setTimeout((-> getUpdateActions()), 1000)
+	getLatestActions (latestActions)->
+
+		console.log latestActions
+
+		self.postMessage latestActions if latestActions isnt undefined
+
+		setTimeout (-> getUpdateActions()), 1000
 
 self.addEventListener 'message', (e)->
 
@@ -42,6 +44,8 @@ self.addEventListener 'message', (e)->
 
 			self.boardId = e.data.boardId
 
-			do getUpdateActions
+			getLatestActions ->
+
+				do getUpdateActions
 	
 , false

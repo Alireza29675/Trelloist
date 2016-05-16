@@ -82,11 +82,16 @@ class Trelloist
 
 					key: Trello.key()
 
-					boardId: board.id
+					boardId: boardData.id
+
+				worker.addEventListener "message", (e)->
+
+					console.log e.data
+
 
 			else console.error "Error: Web Workers isnt supported in this browser!"
 
-			@GLOBAL_BOARD = new Board boardData, worker, (board)=>
+			@GLOBAL_BOARD = new Board boardData, (board)=>
 
 				onSuccess board
 

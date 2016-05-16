@@ -68,12 +68,15 @@
               cmd: "start",
               token: Trello.token(),
               key: Trello.key(),
-              boardId: board.id
+              boardId: boardData.id
+            });
+            worker.addEventListener("message", function(e) {
+              return console.log(e.data);
             });
           } else {
             console.error("Error: Web Workers isnt supported in this browser!");
           }
-          return _this.GLOBAL_BOARD = new Board(boardData, worker, function(board) {
+          return _this.GLOBAL_BOARD = new Board(boardData, function(board) {
             return onSuccess(board);
           });
         };
