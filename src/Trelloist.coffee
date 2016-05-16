@@ -88,7 +88,6 @@ class Trelloist
 
 					console.log e.data
 
-
 			else console.error "Error: Web Workers isnt supported in this browser!"
 
 			@GLOBAL_BOARD = new Board boardData, (board)=>

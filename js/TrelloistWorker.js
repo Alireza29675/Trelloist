@@ -32,13 +32,12 @@
 
   getUpdateActions = function() {
     return getLatestActions(function(latestActions) {
-      console.log(latestActions);
-      if (latestActions !== void 0) {
+      if (latestActions.length !== 0) {
         self.postMessage(latestActions);
       }
       return setTimeout((function() {
         return getUpdateActions();
-      }), 1000);
+      }), 100);
     });
   };
 

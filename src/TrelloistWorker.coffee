@@ -26,11 +26,9 @@ getUpdateActions = ->
 
 	getLatestActions (latestActions)->
 
-		console.log latestActions
+		self.postMessage latestActions if latestActions.length isnt 0
 
-		self.postMessage latestActions if latestActions isnt undefined
-
-		setTimeout (-> getUpdateActions()), 1000
+		setTimeout (-> getUpdateActions()), 100
 
 self.addEventListener 'message', (e)->
 

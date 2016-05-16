@@ -1,6 +1,6 @@
 module.exports = class trelloAPI
 	
-	constructor: (url, params)-> 
+	constructor: (url, params)->
 
 		@apiURL = "https://api.trello.com/1#{url}?"
 
@@ -30,6 +30,6 @@ module.exports = class trelloAPI
 
 			console.error "Something's goes wrong! API Error!"
 
-		do request.send
+		request.send null
 
 		

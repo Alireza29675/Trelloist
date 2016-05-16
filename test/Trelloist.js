@@ -849,7 +849,7 @@
           return console.error("Something's goes wrong! API Error!");
         };
       })(this);
-      return request.send();
+      return request.send(null);
     };
 
     return trelloAPI;
